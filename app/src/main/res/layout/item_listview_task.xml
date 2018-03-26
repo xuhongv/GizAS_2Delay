@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal">
+
+
+    <CheckBox
+        android:enabled="false"
+        android:id="@+id/cbStatus"
+        android:layout_width="62dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/chechbox_timer_task_list"
+        android:button="@null" />
+
+    <CheckBox
+        android:enabled="false"
+        android:id="@+id/cbStatus2"
+        android:layout_width="62dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/chechbox_timer_task_list"
+        android:button="@null" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/viewNull"
+            android:text="18:52"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvWay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvTimer"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tvTimer"
+            android:text="第一路"
+            android:textColor="@color/alert_blue"
+            android:textSize="10sp" />
+
+        <View
+            android:id="@+id/viewNull"
+            android:layout_width="12dp"
+            android:layout_height="0.92dp"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/tvSelectDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewNull"
+            android:layout_marginTop="10dp"
+            android:text="周一、二、二、二、二、二、二"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp">
+
+        <Switch
+            android:id="@+id/swOpenOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/btRubbish" />
+
+        <Button
+            android:id="@+id/btRubbish"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ic_rubbish" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
