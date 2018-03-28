@@ -53,10 +53,15 @@ public class GosDeviceControlActivity extends GosControlModuleBaseActivity
     private GizWifiDevice mDevice;
 
 
-    private Badge badge;
+    private Badge badge1, badge2, badge3;
     private Button btRecycle, btDelay, btTimer;
     private CheckBox mCbDelay1, mCbDelay2;
     private RelativeLayout mRL1, mRL2;
+
+
+    int showNumTask1 = 0;
+    int showNumTask2 = 0;
+    int showNumTask3 = 0;
 
     private enum handler_key {
 
@@ -130,11 +135,28 @@ public class GosDeviceControlActivity extends GosControlModuleBaseActivity
 
         // Log.e("==w", "mesh:" + timer1Bean.getTask_minute());
 
+
+        badge1 = new QBadgeView(this)
+                .bindTarget(btTimer)
+                .setBadgeNumber(showNumTask1)
+                .setBadgeTextSize(13f, true)
+                .setGravityOffset(-3, 0, true);
+
+        badge2 = new QBadgeView(this)
+                .bindTarget(btDelay)
+                .setBadgeNumber(showNumTask2)
+                .setBadgeTextSize(13f, true)
+                .setGravityOffset(-3, 0, true);
+
+        badge3 = new QBadgeView(this)
+                .bindTarget(btRecycle)
+                .setBadgeNumber(showNumTask3)
+                .setBadgeTextSize(13f, true)
+                .setGravityOffset(-3, 0, true);
+
     }
 
     private void initEvent() {
-
-        badge = new QBadgeView(this).bindTarget(btRecycle).setBadgeNumber(5).setBadgeTextSize(13f, true).setGravityOffset(-3, 0, true);
 
 
     }
@@ -156,12 +178,15 @@ public class GosDeviceControlActivity extends GosControlModuleBaseActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (mDevice != null)
+            mDevice.setListener(gizWifiDeviceListener);
         getStatusOfDevice();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("==w", "取消了！");
         mHandler.removeCallbacks(mRunnable);
         // 退出页面，取消设备订阅
         mDevice.setSubscribe(false);
@@ -214,12 +239,16 @@ public class GosDeviceControlActivity extends GosControlModuleBaseActivity
             case R.id.cbTimer1:
 
                 ArrayList<TimerListInfBean> listInfBeans = new ArrayList<>();
+                timer1Bean.setDelayWaysType(1);
+                timer2Bean.setDelayWaysType(2);
+                timer3Bean.setDelayWaysType(3);
+                timer4Bean.setDelayWaysType(4);
+                timer5Bean.setDelayWaysType(5);
                 listInfBeans.add(timer1Bean);
                 listInfBeans.add(timer2Bean);
                 listInfBeans.add(timer3Bean);
                 listInfBeans.add(timer4Bean);
                 listInfBeans.add(timer5Bean);
-                Log.e("==w", "跳转钱inf:" + timer1Bean);
                 Intent intent3 = new Intent(this, TimerTaskActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("GizWifiDevice", mDevice);
@@ -528,6 +557,21 @@ public class GosDeviceControlActivity extends GosControlModuleBaseActivity
         mCbDelay1.setChecked(data_OnOff1);
         mCbDelay2.setChecked(data_OnOff2);
 
+        for (int i = 0; i < showNumTask1; i++) {
+            --showNumTask1;
+        }
+        for (int i = 0; i < showNumTask2; i++) {
+            --showNumTask2;
+        }
+        for (int i = 0; i < showNumTask3; i++) {
+            --showNumTask3;
+        }
+
+        showNumTask1=0;
+        showNumTask2=0;
+        showNumTask3=0;
+
+
         if (!data_OnOff1) {
             mRL1.setBackgroundColor(getResources().getColor(R.color.background_gray));
         } else {
@@ -540,8 +584,65 @@ public class GosDeviceControlActivity extends GosControlModuleBaseActivity
             mRL2.setBackgroundColor(getResources().getColor(R.color.white));
         }
 
-        Log.e("==w", "ui data_Task1_minute :" + data_Task1_minute);
-        Log.e("==w", "ui:" + timer1Bean.getTask_minute());
+
+        if (data_Task1_type == 1 || data_Task1_type == 2) {
+            showNumTask1++;
+        } else if (data_Task1_type == 3) {
+            showNumTask2++;
+        } else if (data_Task1_type == 4) {
+            showNumTask3++;
+        }
+
+
+        if (data_Task2_type == 1 || data_Task2_type == 2) {
+            showNumTask1++;
+        } else if (data_Task2_type == 3) {
+            showNumTask2++;
+        } else if (data_Task2_type == 4) {
+            showNumTask3++;
+        }
+
+        if (data_Task3_type == 1 || data_Task3_type == 2) {
+            showNumTask1++;
+        } else if (data_Task3_type == 3) {
+            showNumTask2++;
+        } else if (data_Task3_type == 4) {
+            showNumTask3++;
+        }
+
+
+        if (data_Task4_type == 1 || data_Task4_type == 2) {
+            showNumTask1++;
+        } else if (data_Task4_type == 3) {
+            showNumTask2++;
+        } else if (data_Task4_type == 4) {
+            showNumTask3++;
+        }
+
+        if (data_Task5_type == 1 || data_Task5_type == 2) {
+            showNumTask1++;
+        } else if (data_Task5_type == 3) {
+            showNumTask2++;
+        } else if (data_Task5_type == 4) {
+            showNumTask3++;
+        }
+
+
+        badge1.setBadgeNumber(showNumTask1);
+        badge2.setBadgeNumber(showNumTask2);
+        badge3.setBadgeNumber(showNumTask3);
+
+        Log.e("==w", "ui data_Task1_type :" + data_Task1_type);
+        Log.e("==w", "ui data_Task2_type :" + data_Task2_type);
+        Log.e("==w", "ui data_Task3_type :" + data_Task3_type);
+        Log.e("==w", "ui data_Task4_type :" + data_Task4_type);
+        Log.e("==w", "ui data_Task4_type :" + data_Task5_type);
+
+        Log.e("==w", "ui showNumTask1 :" + showNumTask1);
+        Log.e("==w", "ui showNumTask2 :" + showNumTask2);
+        Log.e("==w", "ui showNumTask3 :" + showNumTask3);
+
+
     }
 
     private void setEditText(EditText et, Object value) {

@@ -20,10 +20,8 @@ import android.widget.Toast;
 public class GosControlModuleBaseActivity extends GosBaseActivity {
 
 
-
-
     protected static TimerListInfBean timer1Bean = new TimerListInfBean();
-    protected static TimerListInfBean  timer2Bean = new TimerListInfBean();
+    protected static TimerListInfBean timer2Bean = new TimerListInfBean();
     protected static TimerListInfBean timer3Bean = new TimerListInfBean();
     protected static TimerListInfBean timer4Bean = new TimerListInfBean();
     protected static TimerListInfBean timer5Bean = new TimerListInfBean();
@@ -536,6 +534,8 @@ public class GosControlModuleBaseActivity extends GosBaseActivity {
             ConcurrentHashMap<String, Object> map = (ConcurrentHashMap<String, Object>) dataMap.get("data");
             Log.i("liang", "2接收到数据dataMap.get(\"map\")	:" + map);
             Log.i("liang", "2接收到数据dataMap.get(\"data\")	:" + dataMap);
+
+
             for (String dataKey : map.keySet()) {
 
 
@@ -710,7 +710,7 @@ public class GosControlModuleBaseActivity extends GosBaseActivity {
                     data_Task1_minute = (Integer) map.get(dataKey);
                     timer1Bean.setTask_minute(data_Task1_minute);
 
-                    Log.e("==w", "适配器前 data_Task1_minute ；" +data_Task1_minute);
+                    Log.e("==w", "适配器前 data_Task1_minute ；" + data_Task1_minute);
                     Log.e("==w", "适配器前 getTask_minute ；" + timer1Bean.getTask_minute());
 
 
@@ -990,5 +990,5 @@ public class GosControlModuleBaseActivity extends GosBaseActivity {
         }
         return Math.round(date) + "";
     }
-
 }
+

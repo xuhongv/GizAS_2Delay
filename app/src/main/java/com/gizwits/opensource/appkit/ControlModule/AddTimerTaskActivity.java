@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
@@ -25,13 +26,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AddTimerTaskActivity extends GosControlModuleBaseActivity implements NumberPicker.Formatter, View.OnClickListener, OnDateSetListener {
+public class AddTimerTaskActivity extends GosControlModuleBaseActivity implements NumberPicker.Formatter, View.OnClickListener, OnDateSetListener, CompoundButton.OnCheckedChangeListener {
 
 
     private RadioGroup mRgRepe;
@@ -84,6 +86,9 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
     private TimePickerDialog mDialogMonthDayHourMinute;
     private GizWifiDevice mDevice;
 
+
+    private int sendType = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +103,8 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
 
         Intent intent = getIntent();
         mDevice = (GizWifiDevice) intent.getParcelableExtra("_device");
-
+        sendType = intent.getIntExtra("_delayType", 1);
+        Log.e("==w", "sendType:" + sendType);
     }
 
     private void bindViews() {
@@ -154,6 +160,7 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
 
         mRbRelay2Open = (RadioButton) findViewById(R.id.rbRelay2Open);
         mRbRelay2O = (RadioButton) findViewById(R.id.rbRelay2Off);
+        mRbRelay2O.setOnCheckedChangeListener(this);
         mRgAction2 = (RadioGroup) findViewById(R.id.rgAction2);
         mRgAction2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -195,15 +202,27 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
             sendActionData = 23;
         }
 
+        Log.e("xuhong", "isOnceExceute:" + isOnceExceute);
+
+
+
+        String KEY_TASK_ENABLE = "Task" + sendType + "_Enable";
+        String KEY_TASK_ONOFF = "Task" + sendType + "_onoff";
+        String KEY_TASK_TYPE = "Task" + sendType + "_type";
+        String KEY_TASK_DAY = "Task" + sendType + "_day";
+        String KEY_TASK_MINUTE = "Task" + sendType + "_minute";
+        String KEY_TASK_WEEK_REPEAT = "Task" + sendType + "_Week_Repeat";
+
+
         //执行一次
         if (isOnceExceute) {
             //任务允许
             ConcurrentHashMap<String, Object> hashMap = new ConcurrentHashMap<>();
-            hashMap.put(KEY_TASK1_ENABLE, true);
-            hashMap.put(KEY_TASK1_ONOFF, sendActionData);
-            hashMap.put(KEY_TASK1_TYPE, 1);
-            hashMap.put(KEY_TASK1_DAY, sendDays);
-            hashMap.put(KEY_TASK1_MINUTE, sendMinute);
+            hashMap.put(KEY_TASK_ENABLE, true);
+            hashMap.put(KEY_TASK_ONOFF, sendActionData);
+            hashMap.put(KEY_TASK_TYPE, 1);
+            hashMap.put(KEY_TASK_DAY, sendDays);
+            hashMap.put(KEY_TASK_MINUTE, sendMinute);
             sendCommand(hashMap);
 
             //循环执行
@@ -218,12 +237,17 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
 
             //任务允许
             ConcurrentHashMap<String, Object> hashMap = new ConcurrentHashMap<>();
-            hashMap.put(KEY_TASK1_ENABLE, true);
-            hashMap.put(KEY_TASK1_ONOFF, sendActionData);
-            hashMap.put(KEY_TASK1_TYPE, 2);
-            hashMap.put(KEY_TASK1_DAY, sendDays);
-            hashMap.put(KEY_TASK1_MINUTE, sendMinute);
-            hashMap.put(KEY_TASK1_WEEK_REPEAT, Task1_Week_Repeat);
+            hashMap.put(KEY_TASK_ENABLE, true);
+            hashMap.put(KEY_TASK_ONOFF, sendActionData);
+            hashMap.put(KEY_TASK_TYPE, 2);
+            hashMap.put(KEY_TASK_DAY, sendDays);
+            hashMap.put(KEY_TASK_MINUTE, sendMinute);
+
+            //十进制转二进制
+            BigInteger src = new BigInteger(Task1_Week_Repeat + "", 2);
+            int intValue = src.intValue();
+
+            hashMap.put(KEY_TASK_WEEK_REPEAT, intValue);
             sendCommand(hashMap);
 
 
@@ -278,19 +302,19 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
 
 
-        Log.e("==w", "年:" + getDateNumber(yy, millseconds));
-        Log.e("==w", "月:" + getDateNumber(mill, millseconds));
-        Log.e("==w", "日:" + getDateNumber(dd, millseconds));
-        Log.e("==w", "时:" + getDateNumber(hh, millseconds));
-        Log.e("==w", "分:" + getDateNumber(mm, millseconds));
+//        Log.e("==w", "年:" + getDateNumber(yy, millseconds));
+//        Log.e("==w", "月:" + getDateNumber(mill, millseconds));
+//        Log.e("==w", "日:" + getDateNumber(dd, millseconds));
+//        Log.e("==w", "时:" + getDateNumber(hh, millseconds));
+//        Log.e("==w", "分:" + getDateNumber(mm, millseconds));
 
         Date d = new Date(millseconds);
         caluter.format(d);
-        Log.e("==w", "一年中的第几天:" + orderDate(caluter.format(d)));
+        //  Log.e("==w", "一年中的第几天:" + orderDate(caluter.format(d)));
 
         Date y = new Date(millseconds);
         int days = parseNumberDaysTo2000(yy.format(y));
-        Log.e("==w", "距离2000年有多少天:" + days);
+        //  Log.e("==w", "距离2000年有多少天:" + days);
 
         //日数值
         sendDays = orderDate(caluter.format(d)) + days;
@@ -298,8 +322,8 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
 
         tvTimesShow.setText(showCaluter.format(d));
 
-        Log.e("==w", "采集到的总日:" + sendDays);
-        Log.e("==w", "采集到的总分钟:" + sendMinute);
+        // Log.e("==w", "采集到的总日:" + sendDays);
+        // Log.e("==w", "采集到的总分钟:" + sendMinute);
 
     }
 
@@ -385,5 +409,10 @@ public class AddTimerTaskActivity extends GosControlModuleBaseActivity implement
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
     }
 }

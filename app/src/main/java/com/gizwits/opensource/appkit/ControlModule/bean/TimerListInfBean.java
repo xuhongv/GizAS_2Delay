@@ -97,7 +97,17 @@ public class TimerListInfBean implements Parcelable {
 
     private int Task_minute = 0;
 
-    public TimerListInfBean(){
+    public int getDelayWaysType() {
+        return delayWaysType;
+    }
+
+    public void setDelayWaysType(int delayWaysType) {
+        this.delayWaysType = delayWaysType;
+    }
+
+    private int delayWaysType = 0;
+
+    public TimerListInfBean() {
     }
 
     private int Task_cycle_minute1 = 0;
@@ -126,6 +136,7 @@ public class TimerListInfBean implements Parcelable {
         dest.writeInt(this.Task_cycle_minute2);
         dest.writeInt(this.Task_cycle_onoff1);
         dest.writeInt(this.Task_cycle_onoff2);
+        dest.writeInt(this.delayWaysType);
     }
 
     protected TimerListInfBean(Parcel in) {
@@ -139,6 +150,7 @@ public class TimerListInfBean implements Parcelable {
         this.Task_cycle_minute2 = in.readInt();
         this.Task_cycle_onoff1 = in.readInt();
         this.Task_cycle_onoff2 = in.readInt();
+        this.delayWaysType = in.readInt();
     }
 
     public static final Parcelable.Creator<TimerListInfBean> CREATOR = new Parcelable.Creator<TimerListInfBean>() {

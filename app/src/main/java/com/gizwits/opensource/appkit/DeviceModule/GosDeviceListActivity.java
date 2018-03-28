@@ -977,7 +977,7 @@ public class GosDeviceListActivity extends GosDeviceModuleBaseActivity implement
                         } else {
                             delay1 = 20;
                         }
-                        Log.e("xuhongYss", "nihao:" + isDelay1);
+                  //      Log.e("xuhongYss", "nihao:" + isDelay1);
                     }
                     if (dataKey.equals("OnOff2")) {
                         boolean isDelay2 = (Boolean) map.get(dataKey);
@@ -986,12 +986,12 @@ public class GosDeviceListActivity extends GosDeviceModuleBaseActivity implement
                         } else {
                             delay2 = 2;
                         }
-                        Log.e("xuhongYss", "nihao2:" + isDelay2);
+                       // Log.e("xuhongYss", "nihao2:" + isDelay2);
                     }
 
-                    Log.e("xuhongYss", "nihao1:" + delay1 + "，nihao2:" + delay2);
+                 //   Log.e("xuhongYss", "nihao1:" + delay1 + "，nihao2:" + delay2);
                     int resultNum = delay1 + delay2;
-                    Log.e("xuhongYss", "zheb :" + resultNum);
+                    //Log.e("xuhongYss", "zheb :" + resultNum);
                     device.setCustomInfo(resultNum + "", null);
                 }
 
@@ -1005,7 +1005,7 @@ public class GosDeviceListActivity extends GosDeviceModuleBaseActivity implement
 
     @Override
     public void Delay1Listener(GizWifiDevice device, boolean isDelay1) {
-        Log.e("nihao", "device:" + device + "delay1:" + delay1);
+      //  Log.e("nihao", "device:" + device + "delay1:" + delay1);
         if (device != null) {
             ConcurrentHashMap<String, Object> data = new ConcurrentHashMap<>();
             data.put("OnOff1", isDelay1);
@@ -1016,7 +1016,7 @@ public class GosDeviceListActivity extends GosDeviceModuleBaseActivity implement
 
     @Override
     public void Delay2Listener(GizWifiDevice device, boolean isDelay1) {
-        Log.e("nihao", "device:" + device + "delay1:" + delay1);
+      //  Log.e("nihao", "device:" + device + "delay1:" + delay1);
         if (device != null) {
             ConcurrentHashMap<String, Object> data = new ConcurrentHashMap<>();
             data.put("OnOff2", isDelay1);
